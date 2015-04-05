@@ -2,4 +2,4 @@ from flask import Blueprint
 
 resource = Blueprint('resource', __name__)
 
-from . import schools
+from . import students, courses, teachers

@@ -1,13 +1,18 @@
-from marshmallow import Serializer, fields
+from flask_restful import fields
 
-class SchoolSerializer(Serializer):
-    class Meta:
-        fields = ("district", "number", "name", "enrollment")
+student_fields = {
+    'osis': fields.Integer,
+    'fname': fields.String,
+    'lname': fields.String,
+    'offclass': fields.String,
+    'grade': fields.String
+}
 
-class StudentSerializer(Serializer):
-    class Meta:
-        fields = ("osis", "lname", "fname")
-
-class TCSerializer(Serializer):
-    class Meta:
-        fields = ("course_id", "section_id")
+course_fields = {
+    'code': fields.String,
+    'section': fields.Integer,
+    'title': fields.String,
+    'department': fields.String,
+    'room': fields.String,
+    'period': fields.Integer
+}
