@@ -5,7 +5,7 @@ from .. import api
 from ..models import Course
 
 class DepartmentCourses(restful.Resource):
-    @marshal_with(course_fields, envelope='courses')
+    @marshal_with(course_fields)
     def get(self, name):
         query = Course.query.filter_by(department=name).all()
         return query , 404

@@ -5,19 +5,19 @@ from .. import api
 from ..models import Student
 
 class StudentList(restful.Resource):
-    @marshal_with(student_fields, envelope='students')
+    @marshal_with(student_fields)
     def get(self):
         query = Student.query.all()
         return query , 404
 
 class StudentInfo(restful.Resource):
-    @marshal_with(student_fields, envelope='student')
+    @marshal_with(student_fields)
     def get(self, osis):
         query = Student.query.filter_by(osis=osis).first()
         return query , 404
 
 class StudentCourses(restful.Resource):
-    @marshal_with(course_fields, envelope='courses')
+    @marshal_with(course_fields)
     def get(self, osis):
         query = Student.query.filter_by(osis=osis).first().courses
         return query , 404
