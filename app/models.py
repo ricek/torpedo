@@ -30,21 +30,14 @@ class Student(db.Model):
 
     @staticmethod
     def insert_students():
-        with open('data\demo\students.csv') as csvfile:
+        with open('data\cr101.csv') as csvfile:
             spamreader =  islice(csv.reader(csvfile), 1, None)
             for row in spamreader:
-                student = Student(osis=row[0],lname=row[1],fname=row[2],offclass=row[3],grade=row[4])
-                db.session.add(student)
+                if Student.query.get(row[0]) is None:
+                    student = Student(osis=row[0],lname=row[1],fname=row[2],offclass=row[3],grade=row[4])
+                    db.session.add(student)
             db.session.commit()
             print("All students added!")
-
-    @property
-    def serialize(self):
-        return{
-            'osis': self.osis,
-            'fname': self.fname,
-            'lname': self.lname
-        }
 
     def __repr__(self):
         return '<%r %r %r>' % (self.osis, self.lname, self.fname[0])
@@ -55,19 +48,20 @@ class Course(db.Model):
     section = db.Column(db.Integer)
     title = db.Column(db.String(64))
     department = db.Column(db.String(64))
-    room = db.Column(db.String(64))
     period = db.Column(db.Integer)
+    room = db.Column(db.String(64))
 
     students = db.relationship("Student", secondary=students_schedule)
     teachers = db.relationship("Teacher", secondary=teachers_schedule)
 
     @staticmethod
     def insert_courses():
-        with open('data\demo\courses.csv') as csvfile:
+        with open('data\cr101.csv') as csvfile:
             spamreader =  islice(csv.reader(csvfile), 1, None)
             for row in spamreader:
-                course = Course(code=row[0],section=row[1],title=row[2],department=row[3],room=row[4],period=row[5])
-                db.session.add(course)
+                if Course.query.filter_by(code=row[5]).filter_by(section=row[6]).first() is None:
+                    course = Course(code=row[5],section=row[6],period=row[9],room=row[10])
+                    db.session.add(course)
             db.session.commit()
             print("All courses added!")
 
