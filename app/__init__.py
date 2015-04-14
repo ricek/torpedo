@@ -9,7 +9,7 @@ from config import config
 
 db = SQLAlchemy()
 mail = Mail()
-api = restful.Api(prefix='/api/v1')
+api = restful.Api(prefix='/v1')
 auth = HTTPBasicAuth()
 
 login_manager = LoginManager()
@@ -29,8 +29,8 @@ def create_app(config_name):
     #from .account import views #as auth_blueprint
     #app.register_blueprint(auth_blueprint)
 
-    from .resource import resource as resource_blueprint
-    app.register_blueprint(resource_blueprint)
+    from .resources import resources as resources_blueprint
+    app.register_blueprint(resources_blueprint)
 
     api.init_app(app)
 
