@@ -91,6 +91,7 @@ class Teacher(db.Model):
 class Entry(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     timestamp = db.Column(db.DateTime)
+    room = db.Column(db.String(64))
     student_osis = db.Column(db.Integer, db.ForeignKey('student.osis'))
 
     def __repr__(self):
