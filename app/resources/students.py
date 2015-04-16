@@ -8,19 +8,19 @@ class StudentList(restful.Resource):
     @marshal_with(student_fields)
     def get(self):
         query = Student.query.all()
-        return query , 404
+        return query, 200
 
 class StudentInfo(restful.Resource):
     @marshal_with(student_fields)
     def get(self, osis):
         query = Student.query.filter_by(osis=osis).first()
-        return query , 404
+        return query, 200
 
 class CoursesByStudent(restful.Resource):
     @marshal_with(course_fields)
     def get(self, osis):
         query = Student.query.filter_by(osis=osis).first().courses
-        return query , 404
+        return query, 200
 
 
 api.add_resource(StudentList, '/students', endpoint='students')

@@ -8,25 +8,25 @@ class CourseList(restful.Resource):
     @marshal_with(course_fields)
     def get(self):
         query = Course.query.all()
-        return query , 404
+        return query, 200
 
 class CourseByCode(restful.Resource):
     @marshal_with(course_fields)
     def get(self, code):
         query = Course.query.filter_by(code=code.upper()).all()
-        return query , 404
+        return query, 200
 
 class CourseBySection(restful.Resource):
     @marshal_with(course_fields)
     def get(self, code, section):
         query = Course.query.filter_by(code=code.upper()).filter_by(section=section).first()
-        return query , 404
+        return query, 200
 
 class CourseByDepartment(restful.Resource):
     @marshal_with(course_fields)
     def get(self, name):
         query = Course.query.filter_by(department=name).all()
-        return query , 404
+        return query, 200
 
 api.add_resource(CourseList, '/courses')
 api.add_resource(CourseByCode, '/courses/<code>')
