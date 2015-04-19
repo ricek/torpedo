@@ -1,8 +1,9 @@
 from flask.ext.restful import fields, reqparse
+from ..period import entryStatus, convertTS
 
-class TTP(fields.Raw):
+class getTS(fields.Raw):
     def format(self, value):
-        return value.strftime('%H:%M')
+        return entryStatus(value)
 
 student_fields = {
     'osis': fields.Integer,
@@ -24,10 +25,9 @@ course_fields = {
 entry_fields = {
     'timestamp': fields.DateTime(dt_format='rfc822'),
     'osis': fields.Integer(attribute='student_osis'),
-    'status': TTP(attribute='timestamp')
+    'status': getTS(attribute='timestamp',default='Absent')
 }
-
-
 
 entry_parser = reqparse.RequestParser()
 entry_parser.add_argument('osis', type=int, required=True, help='Please enter student OSIS')
+entry_parser.add_argument('room', type=str, required=True, help='Please enter room as a string')
