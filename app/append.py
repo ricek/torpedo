@@ -4,7 +4,7 @@ from . import db
 from .models import Student, Course
 
 def appendStudents():
-    with open('data\cr101.csv') as csvfile:
+    with open('public/data/cr101.csv') as csvfile:
         spamreader =  islice(csv.reader(csvfile), 1, None)
         for row in spamreader:
             student = Student.query.get(row[0])
