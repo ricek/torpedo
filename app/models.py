@@ -15,7 +15,7 @@ students_schedule = db.Table('students_schedule', db.Model.metadata,
 
 teachers_schedule = db.Table('teachers_schedule', db.Model.metadata,
    db.Column('course_id', db.Integer, db.ForeignKey('course.id')),
-   db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id')),
+   db.Column('teacher_id', db.String, db.ForeignKey('teacher.id')),
 )
 
 class Student(db.Model):
@@ -30,7 +30,7 @@ class Student(db.Model):
 
     @staticmethod
     def insert_students():
-        with open('public/data/cr101.csv') as csvfile:
+        with open('public\data\cr101.csv') as csvfile:
             spamreader =  islice(csv.reader(csvfile), 1, None)
             for row in spamreader:
                 if Student.query.get(row[0]) is None:
@@ -56,7 +56,7 @@ class Course(db.Model):
 
     @staticmethod
     def insert_courses():
-        with open('public/data/cr101.csv') as csvfile:
+        with open('public\data\cr101.csv') as csvfile:
             spamreader =  islice(csv.reader(csvfile), 1, None)
             for row in spamreader:
                 if Course.query.filter_by(code=row[5]).filter_by(section=row[6]).first() is None:
