@@ -24,7 +24,7 @@ class Student(db.Model):
     lname = db.Column(db.String(64))
     fname = db.Column(db.String(64))
     offclass = db.Column(db.String(32))
-    grade = db.Column(db.Integer)
+    grade = db.Column(db.String(32))
 
     entries = db.relationship('Entry', backref='student', lazy='dynamic')
     courses = db.relationship("Course", secondary=students_schedule)
