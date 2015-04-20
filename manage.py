@@ -15,6 +15,22 @@ def make_shell_context():
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command("db", MigrateCommand)
 
+@manager.command
+def deploy():
+    from flask.ext.migrate import upgrade
+    from app.models import Student, Course
+    from app.append import appendStudents
+
+    # migrate database to latest revision
+    upgrade()
+
+    # insert data from csv
+    Student.insert_students()
+    Course.insert_courses()
+
+    # append students to corresponding course
+    appendStudents()
+
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
