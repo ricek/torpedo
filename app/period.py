@@ -33,25 +33,26 @@ dict2 = [
 periodStart=[]
 periodEnd=[]
 timeBtwEnd=[]
+timeBtwStart=[]
 for t in range(0,len(dict1)):
    periodStart.append(datetime.strptime(dict1[t],'%H:%M'))
    periodEnd.append(datetime.strptime(dict2[t],'%H:%M'))
 for t in range(0,len(dict1)):
 	timeBtwEnd.append(datetime.strptime(dict1[t],'%H:%M')+timedelta(minutes=3))
-
+	timeBtwStart.append(datetime.strptime(dict1[t],'%H:%M')-timedelta(minutes=6))
 
 def convertTS(timestamp):
-    time = timestamp.strftime('%H:%M')
-    rt = datetime.strptime(time,'%H:%M')
-    for x in range(0,len(periodStart)):
+	time = timestamp.strftime('%H:%M')
+	rt = datetime.strptime(time,'%H:%M')
+	for x in range(0,len(periodStart)):
     	if(periodStart[x]<=rt and rt<=periodEnd[x]):
     		return x+1
 
 def entryStatus(timestamp):
 	time = timestamp.strftime('%H:%M')
-	rt = datetime.strptime(time,'%H:%M')
+
 	for x in range(0,len(periodStart)):
 		if(rt>=timeBtwEnd[x] and rt<=periodEnd[x]):
 			return "Late"
-		elif(rt<timeBtwEnd[x] and rt>periodEnd[x]):
+		if(rt<=timeBtwEnd[x] and rt>=timeBtwStart[x]):
 			return "Present"
