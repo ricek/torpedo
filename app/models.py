@@ -37,10 +37,13 @@ class Student(db.Model):
         with open(cr101) as csvfile:
             spamreader =  islice(csv.reader(csvfile), 1, None)
             for row in spamreader:
-                if Student.query.get(row[0]) is None:
-                    student = Student(osis=row[0],lname=row[1],fname=row[2],offclass=row[3],grade=row[4])
-                    db.session.add(student)
-            db.session.commit()
+                # if Student.query.get(row[0]) is None:
+                # Add students in MKF* courses only for demo purpose
+                if Course.query.filter_by(code=row[5]).first() is not None:
+                    if Course.query.filter_by(code=row[5]).first().code[:3] == "MKF" and Student.query.get(row[0]) is None:
+                        student = Student(osis=row[0],lname=row[1],fname=row[2],offclass=row[3],grade=row[4])
+                        db.session.add(student)
+                        db.session.commit()
             print("All students added!")
 
     def __repr__(self):
@@ -66,7 +69,9 @@ class Course(db.Model):
             for row in spamreader:
                 if Course.query.filter_by(code=row[5]).filter_by(section=row[6]).first() is None:
                     course = Course(code=row[5],section=row[6],period=row[9],room=row[10])
-                    db.session.add(course)
+                    # Add MKF* courses only for demo purpose
+                    if course.code[:3] == "MKF":
+                        db.session.add(course)
             db.session.commit()
             print("All courses added!")
 

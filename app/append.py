@@ -10,6 +10,9 @@ def appendStudents():
         for row in spamreader:
             student = Student.query.get(row[0])
             course = Course.query.filter_by(code=row[5]).filter_by(section=row[6]).first()
-            course.students.append(student)
+            # Append students in MKF* courses only for demo purpose
+            if student is not None and course is not None:
+                if course.code[:3] == "MKF":
+                    course.students.append(student)
         db.session.commit()
         print("All students added to matching course!")
