@@ -45,12 +45,12 @@ def convertTS(timestamp):
 	time = timestamp.strftime('%H:%M')
 	rt = datetime.strptime(time,'%H:%M')
 	for x in range(0,len(periodStart)):
-    	if(periodStart[x]<=rt and rt<=periodEnd[x]):
-    		return x+1
+		if(periodStart[x]<=rt and rt<=periodEnd[x]):
+			return x+1
 
 def entryStatus(timestamp):
 	time = timestamp.strftime('%H:%M')
-
+	rt = datetime.strptime(time,'%H:%M')
 	for x in range(0,len(periodStart)):
 		if(rt>=timeBtwEnd[x] and rt<=periodEnd[x]):
 			return "Late"
