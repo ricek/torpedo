@@ -1,6 +1,8 @@
-import csv
+import os, csv
 import os.path
 from itertools import islice
+from urllib.request import urlretrieve
+from config import config
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
@@ -31,7 +33,8 @@ class Student(db.Model):
 
     @staticmethod
     def insert_students():
-        with open('data/cr101.csv') as csvfile:
+        cr101, headers = urlretrieve(os.getenv('CR1_01'))
+        with open(cr101) as csvfile:
             spamreader =  islice(csv.reader(csvfile), 1, None)
             for row in spamreader:
                 if Student.query.get(row[0]) is None:
@@ -57,7 +60,8 @@ class Course(db.Model):
 
     @staticmethod
     def insert_courses():
-        with open('data/cr101.csv') as csvfile:
+        cr101, headers = urlretrieve(os.getenv('CR1_01'))
+        with open(cr101) as csvfile:
             spamreader =  islice(csv.reader(csvfile), 1, None)
             for row in spamreader:
                 if Course.query.filter_by(code=row[5]).filter_by(section=row[6]).first() is None:

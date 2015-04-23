@@ -1,10 +1,11 @@
-import csv
+import os, csv
 from itertools import islice
 from . import db
 from .models import Student, Course
 
 def appendStudents():
-    with open('public/data/cr101.csv') as csvfile:
+    cr101, headers = urlretrieve(os.getenv('CR1_01'))
+    with open(cr101) as csvfile:
         spamreader =  islice(csv.reader(csvfile), 1, None)
         for row in spamreader:
             student = Student.query.get(row[0])
