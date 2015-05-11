@@ -12,6 +12,7 @@ class EntryList(restful.Resource):
         query = Entry.query.all()
         return query, 200
 
+    @marshal_with(entry_fields)
     def post(self):
         # osis = entry_parser.parse_args()['osis']
         args = entry_parser.parse_args()
@@ -19,7 +20,7 @@ class EntryList(restful.Resource):
             entry = Entry(timestamp=datetime.datetime.now(), room=args.room, student_osis=args.osis)
             db.session.add(entry)
             db.session.commit()
-            return "Entry added successfully", 200
+            return entry, 200
 
 class EntriesByStudent(restful.Resource):
     @marshal_with(entry_fields)
